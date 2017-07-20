@@ -1,0 +1,30 @@
+html,h1{
+  text-align:center
+}
+html, body {
+  margin: 0;
+  padding:0;
+  background: #faf8ef;
+  color: #776e65;
+  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+  font-size:18px;
+  line-spacing:40px;
+  margin-top:40px;
+}
+
+h1.title{
+  margin:60px;
+    font-size:55px;
+}
+
+h2{
+  margin:25px;
+  margin-left:550px;
+  margin-right:550px;
+  display:inline-block;
+  line-height:70px;
+  color:#F0F8FF;
+  background:#776e61;
+  width:350px;
+}
+
