@@ -7,6 +7,14 @@ function getSize() {
   return 8; 
 }
 
+function getMode() { 
+  var reg = new RegExp("(^|&)mode=([^&]*)(&|$)", "i");
+  var r = location.search.substr(1).match(reg);
+  if (r != null) {
+    return unescape(decodeURI(r[2]));
+  }
+  return "normal"; 
+}
 
 var game;
 window.requestAnimationFrame(function () {
@@ -24,118 +32,22 @@ window.requestAnimationFrame(function () {
   game = new GameManager(size, KeyboardInputManager, HTMLActuator, LocalScoreManager);
   var mode = getMode();
   switch (mode) {
-  case "alwaysTwo":
-    alwaysTwo();
-    break;
-  case "fibonacci":
-    fibonacci();
-    break;
-  case "threes":
-    threes();
-    break;
-  case "mergeAny":
-    mergeAny();
-    break;
-  case "powerTwo":
-    powerTwo();
-    break;
-  case "tileZero":
-    tileZero();
-    break;
-  case "tileNegative":
-    tileNegative();
-    break;
-  case "gravity":
-    gravity();
-    break;
   default:
     normal();
     break;
   }
 });
 
-var last = '';
-var dir = 0;
-var cnt = 0;
-
 function random() {
   game.move(Math.floor(Math.random() * 4));
 }
 
 function changeSize(size) {
-  window.location.href = 'index.html?size=' + size + '&mode=normal'
+  window.location.href = 'index.html?size=' + size + '&mode=' + getMode();
 }
 
-function changeRule(add, merge, win) {
-  game.addRandomTile = function () {
-    if (this.grid.cellsAvailable()) {
-      var tile = new Tile(this.grid.randomAvailableCell(), add());
-      this.grid.insertTile(tile);
-    }
-  };
-  game.tileMatchesAvailable = function () {
-    var self = this;
-    var tile;
-    for (var x = 0; x < this.size; x++) {
-      for (var y = 0; y < this.size; y++) {
-        tile = this.grid.cellContent({ x: x, y: y });
-        if (tile) {
-          for (var direction = 0; direction < 4; direction++) {
-            var vector = self.getVector(direction);
-            var cell   = { x: x + vector.x, y: y + vector.y };
-            var other  = self.grid.cellContent(cell);
-            if (other && merge(other.value, tile.value)) {
-              return true;
-            }
-          }
-        }
-      }
-    }
-    return false;
-  };
-  game.move = function (direction) {
-    var self = this;
-    if (this.over || this.won) return;
-    var cell, tile;
-    var vector     = this.getVector(direction);
-    var traversals = this.buildTraversals(vector);
-    var moved      = false;
-    this.prepareTiles();
-    traversals.x.forEach(function (x) {
-      traversals.y.forEach(function (y) {
-        cell = { x: x, y: y };
-        tile = self.grid.cellContent(cell);
-        if (tile) {
-          var positions = self.findFarthestPosition(cell, vector);
-          var next      = self.grid.cellContent(positions.next);
-          if (next && !next.mergedFrom && merge(next.value, tile.value)) {
-            var merged = new Tile(positions.next, tile.value + next.value);
-            merged.mergedFrom = [tile, next];
-            self.grid.insertTile(merged);
-            self.grid.removeTile(tile);
-            tile.updatePosition(positions.next);
-            self.score += merged.value;
-            if (win(merged.value)) self.won = true;
-          } else {
-            self.moveTile(tile, positions.farthest);
-          }
-          if (!self.positionsEqual(cell, tile)) {
-            moved = true; 
-          }
-        }
-      });
-    });
-    if (moved) {
-      this.addRandomTile();
-      if (!this.movesAvailable()) {
-        this.over = true; 
-      }
-      this.actuate();
-    }
-  };
-  game.inputManager.events["move"] = [];
-  game.inputManager.on("move", game.move.bind(game));
-  game.restart();
+function changeMode(mode) {
+  window.location.href = 'index.html?size=' + getSize() + '&mode=' + mode;
 }
 
 function normalAdd() {
