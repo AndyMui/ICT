@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<!--MultiplayerMode-->
 <html>
 <head>
 <title>2048 Multiplayer</title> 
-<link href="style/multiplayermode.css" rel="stylesheet">
+<link href="style/main.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="container">
@@ -11,7 +10,7 @@
 <h1 class="title">Improved 2048</h1>
   <h2 class="subtitle">Multiplayer Mode</h2>
 </div>
-<p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong> Your square is on the left!</p>
+<p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong></p>
 <div class="scores">
 <div class="score-container" style="float: left">0</div>
 <div class="" style="margin-top: 15px; position: absolute; left: 50%">
@@ -56,7 +55,6 @@
 </div>
 </div>
 </div>
-<div id="player-online" style="display:inline-block; float: right;">
 <div class="game-container ">
 <div class="game-message">
 <p></p>
@@ -92,6 +90,7 @@
 </div>
 </div>
 </div>
+<button name="start-game" type="button" onclick="timeRush(120);">Start Game</button>
 <p class="game-explanation">
 <strong class="important">How to play:</strong> Use your <strong>arrow keys</strong>or <strong>WASD keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>
 </p>
