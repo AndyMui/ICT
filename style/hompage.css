@@ -18,14 +18,12 @@ h1.title{
 }
 
 h2{
+  margin:25px;
+  margin-left:550px;
+  margin-right:550px;
+  display:inline-block;
+  line-height:70px;
   color:#F0F8FF;
   background:#776e61;
-  border-radius: 4px;
-  padding: 15px 32px;
-  text-align: center;
-  display: inline-block;
-  font-size: 15px;
-  position: relative;
+  width:350px;
 }
-
-
